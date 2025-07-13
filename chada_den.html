@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>বিম্পি প্র্যাঙ্ক গেম</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            background-color: #f8e1e8;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 28px;
+            color: #d81b60;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 20px;
+            color: #880e4f;
+            margin: 15px 0 10px;
+        }
+        .input-box {
+            width: 90%;
+            height: 50px;
+            margin: 10px auto;
+            font-size: 18px;
+            padding: 10px;
+            border: 2px solid #d81b60;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .button {
+            width: 250px;
+            height: 60px;
+            font-size: 20px;
+            margin: 20px;
+            cursor: pointer;
+            background-color: #d81b60;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #c2185b;
+        }
+        #page2, #page3 {
+            display: none;
+        }
+        #finalButton {
+            margin-top: 250px; /* Moves the button lower on Page 3 */
+        }
+        #message, #finalMessage {
+            font-size: 24px;
+            color: #880e4f;
+            margin: 20px 0;
+        }
+        #slapCount {
+            font-size: 22px;
+            color: #d81b60;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="page1" class="container">
+        <h1>দরকার হলে পুটকি মারেন তবুও চাঁদা দেন</h1>
+        <h2>স্থানীয় বিম্পি নেতার নাম:</h2>
+        <input type="text" id="leaderName" class="input-box" placeholder="নাম লিখুন">
+        <h2>চাঁদার পরিমাণ:</h2>
+        <input type="number" id="amount" class="input-box" placeholder="চাঁদার পরিমাণ">
+        <button class="button" onclick="goToPage2()">আপনার প্রাপ্য বুঝে নিন</button>
+    </div>
+
+    <div id="page2" class="container">
+        <h1 id="message"></h1>
+        <h2 id="slapCount">পুটকি মারা: 0</h2>
+        <button class="button" onclick="slap()">পুটকি মারুন</button>
+    </div>
+
+    <div id="page3" class="container">
+        <h1 id="finalMessage"></h1>
+        <button id="finalButton" class="button" onclick="restartGame()">পূনরায় পুটকি মারতে আবার চাঁদা দিন</button>
+    </div>
+
+    <script>
+        let name = "";
+        let amount = 0;
+        let slapCount = 0;
+
+        function goToPage2() {
+            name = document.getElementById("leaderName").value;
+            amount = parseInt(document.getElementById("amount").value) || 0;
+            if (name && amount) {
+                document.getElementById("page1").style.display = "none";
+                document.getElementById("page2").style.display = "block";
+                document.getElementById("message").innerText = `আপনার স্থানীয় বিম্পি নেতা ${name}'কে ${amount} টাকা চাঁদা দেওয়ার বিনিময়ে কিছুক্ষন পুটকি মারুন। 🖐️`;
+                slapCount = 0;
+                document.getElementById("slapCount").innerText = `পুটকি মারা: ${slapCount}`;
+            }
+        }
+
+        function slap() {
+            slapCount++;
+            document.getElementById("slapCount").innerText = `পুটকি মারা: ${slapCount}`;
+            if (slapCount >= 90) {
+                document.getElementById("page2").style.display = "none";
+                document.getElementById("page3").style.display = "block";
+                document.getElementById("finalMessage").innerText = `এই ${amount} টাকা চাঁদার বিনিময়ে আর কত পুটকি মারবেন বেচারাকে!? ৯০ বার তো মারলেনই, বাকি ১০ বার নাহয় দেশনেতা জারেক টিয়ার পুটকি দিয়ে দিয়েন।`;
+            }
+        }
+
+        function restartGame() {
+            document.getElementById("page3").style.display = "none";
+            document.getElementById("page1").style.display = "block";
+            document.getElementById("leaderName").value = "";
+            document.getElementById("amount").value = "";
+        }
+    </script>
+</body>
+</html>
